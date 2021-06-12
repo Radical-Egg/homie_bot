@@ -1,0 +1,9 @@
+{
+  "name": "homie_bot",
+  "version": "1.0.0",
+  "description": "A bot for my homies",
+  "main": "index.js",
+  "repository": "https://github.com/Radical-Egg/homie_bot.git",
+  "author": "Radical_Egg",
+  "license": "MIT"
+}
