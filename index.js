@@ -1,16 +1,29 @@
-const datab = require(__dirname + '/modules/database.js')
-let egg = [{ "user": "egg", "wallet": 200 }, { "user": "gogo", "wallet": 500 }]
+require('dotenv').config();
+const bot = require(__dirname + '/modules/homie.js')
 
-let egg_change = { "user": "derp", "wallet": 5800 }
 
-const db = new datab()
+// create new bot
+const homie = new bot()
 
-db.create(egg)
+
+
+homie.getMyBalance()
+homie.listenForMessages()
+
+homie.connect()
+
+
+
+
+
+//const db = new datab()
+
+//db.create(egg)
 //let t = db.retreive("egg")
 
 //db.update(egg_change)
 //db.delete("egg")
-db.printTable()
+//db.printTable()
 
 
 
