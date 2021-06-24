@@ -56,15 +56,16 @@ class Coins extends Database {
 
         let insert = this.db.prepare(sqlCommand)
 
-        data.forEach((elem) => {
-            try {
-                insert.run(elem['user'], elem['wallet'])
-            } catch (error) {
-                console.log(error.message)
-                console.log(`Cannot insert this user because it already exists
+
+        try {
+            insert.run(data['user'], data['wallet'])
+            console.log("Entry has been created or already exists for " + data['user'])
+        } catch (error) {
+            console.log(error.message)
+            console.log(`Cannot insert this user because it already exists
                  \n if your need to update values - use update function `)
-            }
-        })
+        }
+
         insert.finalize()
     }
     // can access this in the main by doing
@@ -82,20 +83,31 @@ class Coins extends Database {
         })
     }
     // TODO - updating is working but we need to log our updates to somewhere
-    update = (userObject) => {
+    handleUpdate = (userObject, amount) => {
         this.retreive(userObject.user).then((user) => {
             let sqlCommand = `UPDATE ${this.table} SET wallet = ? WHERE user = ?`
 
-            this.db.run(sqlCommand, [userObject.wallet, user.user], function (err) {
+            user.wallet += amount
+
+            this.db.run(sqlCommand, [user.wallet, user.user], function (err) {
                 if (err) {
                     return console.error(err.message)
                 }
                 console.log(`Row(s) updated: ${this.changes}`);
+                console.log(`${user.user} : ${user.wallet}`)
             })
         }).catch(() => {
             console.log("Unable to update entry - could not locate in database")
         }
         )
+    }
+    update(userObject) {
+        this.db.serialize(() => {
+            this.create(userObject)
+            this.db.serialize(() => {
+                this.handleUpdate(userObject)
+            })
+        })
     }
     delete = (key) => {
         this.retreive(key).then((user) => {
