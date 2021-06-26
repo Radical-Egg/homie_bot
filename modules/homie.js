@@ -28,6 +28,11 @@ class Homie {
             })
         })
     }
+    giveTo() {
+        this.bot.mention((ctx) => {
+            console.log(ctx)
+        })
+    }
 
     connect() { this.bot.launch() }
 }

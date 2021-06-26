@@ -6,11 +6,13 @@ const bot = require(__dirname + '/modules/homie.js')
 const homie = new bot()
 
 
-
+//homie.giveTo()
 homie.getMyBalance()
 homie.listenForMessages()
 
+homie.db.printTable()
 homie.connect()
+
 
 
 

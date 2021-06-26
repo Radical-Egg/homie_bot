@@ -101,11 +101,11 @@ class Coins extends Database {
         }
         )
     }
-    update(userObject) {
+    update(userObject, amount) {
         this.db.serialize(() => {
             this.create(userObject)
             this.db.serialize(() => {
-                this.handleUpdate(userObject)
+                this.handleUpdate(userObject, amount)
             })
         })
     }
